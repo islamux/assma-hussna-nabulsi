@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSettings } from "@/lib/settings-context";
 import { addBookmark, removeBookmark, isBookmarked } from "@/lib/bookmarks";
 
 export default function BookmarkButton({ slug, name }: { slug: string; name: string }) {
   const [bookmarked, setBookmarked] = useState(false);
-  const { theme } = useSettings();
 
   useEffect(() => {
     setBookmarked(isBookmarked(slug));

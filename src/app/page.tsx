@@ -14,7 +14,7 @@ export default function HomePage() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <Bismillah />
             <div className="text-center mt-8 mb-12">
-              <h1 className="text-3xl sm:text-4xl font-bold text-primary" style={{ fontFamily: "var(--font-heading)" }}>
+              <h1 className="text-3xl sm:text-4xl font-bold text-primary font-heading">
                 أسماء الله الحسنى
               </h1>
               <p className="mt-3 text-muted text-lg">

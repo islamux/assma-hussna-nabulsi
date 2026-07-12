@@ -20,7 +20,7 @@ export default function ArticleReader({ parts }: ArticleReaderProps) {
                 <div className="w-1.5 h-1.5 bg-accent/60 rotate-45" />
                 <div className="w-1.5 h-1.5 bg-accent/40 rotate-45" />
               </div>
-              <h3 className="text-lg font-bold text-primary" style={{ fontFamily: "var(--font-heading)" }}>
+              <h3 className="text-lg font-bold text-primary font-heading">
                 الجزء {i + 1}
               </h3>
               <div className="flex-1 h-[1px] bg-border" />
