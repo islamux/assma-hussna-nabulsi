@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-muted: var(--muted);
+  --color-verse: var(--verse);
+  --color-name: var(--name);
+  --color-reference: var(--reference);
+  --color-border: var(--border-color);
+  --font-body: var(--font-naskh);
+  --font-heading: var(--font-amiri);
+}
+
+:root {
+  --background: #faf8f3;
+  --foreground: #2d2a24;
+  --primary: #0d4f3c;
+  --primary-light: #1a7a5e;
+  --accent: #c5a059;
+  --accent-light: #d4b67a;
+  --muted: #7a756d;
+  --verse: #0d4f3c;
+  --name: #b8860b;
+  --reference: #8a8580;
+  --border-color: #e5e0d5;
+  --card-bg: #ffffff;
+  --card-hover: #f5f2eb;
+}
+
+.dark {
+  --background: #1a1915;
+  --foreground: #d4cfc5;
+  --primary: #5fb89a;
+  --primary-light: #7ecdb3;
+  --accent: #d4b67a;
+  --accent-light: #e0c894;
+  --muted: #8a8580;
+  --verse: #7ecdb3;
+  --name: #d4b67a;
+  --reference: #6a6560;
+  --border-color: #3a3530;
+  --card-bg: #252220;
+  --card-hover: #302c28;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), "Noto Naskh Arabic", serif;
+  line-height: 1.8;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading), "Amiri", serif;
+}
+
+/* Quran verse styling (c1) */
+span.c1 {
+  color: var(--verse);
+  font-weight: 600;
+}
+
+/* Allah's name styling (c2) */
+span.c2 {
+  color: var(--name);
+  font-weight: 600;
+}
+
+/* Hadith/statement styling (c3) */
+span.c3 {
+  color: var(--accent);
+}
+
+/* Reference/citation styling (c4) */
+span.c4 {
+  color: var(--reference);
+  font-size: 0.9em;
+}
+
+/* Article content typography */
+.article p {
+  margin-bottom: 1.25rem;
+  text-align: justify;
+  line-height: 2;
+}
+
+.article p:last-child {
+  margin-bottom: 0;
+}
+
+/* Islamic geometric pattern */
+.pattern-border {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 10px,
+    var(--accent) 10px,
+    var(--accent) 11px
+  );
+  height: 2px;
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}

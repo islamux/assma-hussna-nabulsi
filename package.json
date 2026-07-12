@@ -1,0 +1,28 @@
+{
+  "name": "assma-hussna-nabulsi",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "build-data": "npx tsx scripts/build-data.ts"
+  },
+  "dependencies": {
+    "next": "16.2.10",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.2",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "cheerio": "^1.2.0",
+    "fuse.js": "^7.0",
+    "tailwindcss": "^4.3.2",
+    "tsx": "^4.19",
+    "typescript": "^5.8"
+  }
+}
