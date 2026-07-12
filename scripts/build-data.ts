@@ -33,8 +33,24 @@ function parseName(title: string): { name: string; part: number } {
   return { name, part };
 }
 
+const ARABIC_TO_LATIN: Record<string, string> = {
+  "أ": "a", "إ": "i", "آ": "aa", "ا": "a", "ب": "b", "ت": "t", "ث": "th",
+  "ج": "j", "ح": "h", "خ": "kh", "د": "d", "ذ": "dh", "ر": "r", "ز": "z",
+  "س": "s", "ش": "sh", "ص": "s", "ض": "d", "ط": "t", "ظ": "z", "ع": "a",
+  "غ": "gh", "ف": "f", "ق": "q", "ك": "k", "ل": "l", "م": "m", "ن": "n",
+  "ه": "h", "و": "w", "ي": "y", "ة": "a", "ى": "a", "ء": "a",
+  "َ": "a", "ُ": "u", "ِ": "i", "ّ": "", "ْ": "", "ٌ": "", "ً": "", "ٍ": "",
+};
+
 function slugify(name: string): string {
-  return name.replace(/\s+/g, "-").replace(/[^\u0600-\u06FF\-]/g, "");
+  let slug = "";
+  for (const ch of name) {
+    if (ARABIC_TO_LATIN[ch]) slug += ARABIC_TO_LATIN[ch];
+    else if (ch >= "0" && ch <= "9") slug += ch;
+    else if (ch === " " || ch === "-") slug += "-";
+  }
+  slug = slug.replace(/-+/g, "-").replace(/^-|-$/g, "");
+  return slug;
 }
 
 function main() {
