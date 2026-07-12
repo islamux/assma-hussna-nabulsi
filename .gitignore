@@ -40,8 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# data files (raw source - not needed for build)
-/data/items/
+# generated data (built by scripts/build-data.ts)
+/data/names.json
+/data/search-index.json
+/public/data/search-index.json
 /_index.json
 
 # extraction scripts (not part of the app)
