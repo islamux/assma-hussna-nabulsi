@@ -43,6 +43,7 @@ next-env.d.ts
 # generated data (built by scripts/build-data.ts)
 /data/names.json
 /data/search-index.json
+/data/hadiths.json
 /public/data/search-index.json
 /_index.json
 
