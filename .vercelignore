@@ -1,6 +1,5 @@
 node_modules
 .next
-data/items
 scripts/extract.js
 _index.json
 .vercel
