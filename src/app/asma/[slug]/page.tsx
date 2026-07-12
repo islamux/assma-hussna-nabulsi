@@ -34,7 +34,7 @@ export default async function NamePage({ params }: { params: Promise<{ slug: str
       <main className="flex-1">
         <article className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl sm:text-4xl font-bold text-primary" style={{ fontFamily: "var(--font-heading)" }}>
+            <h1 className="text-3xl sm:text-4xl font-bold text-primary font-heading">
               {name.displayName}
             </h1>
             <div className="flex items-center gap-1">

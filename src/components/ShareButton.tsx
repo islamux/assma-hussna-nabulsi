@@ -6,7 +6,9 @@ export default function ShareButton({ slug, name }: { slug: string; name: string
     if (navigator.share) {
       try {
         await navigator.share({ title: name, url });
-      } catch {}
+      } catch (err) {
+        if (err instanceof Error && err.name !== "AbortError") throw err;
+      }
     } else {
       await navigator.clipboard.writeText(url);
       alert("تم نسخ الرابط");

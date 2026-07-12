@@ -10,7 +10,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="text-xl font-bold text-primary" style={{ fontFamily: "var(--font-heading)" }}>
+          <Link href="/" className="text-xl font-bold text-primary font-heading">
             أسماء الله الحسنى
           </Link>
           <div className="hidden sm:flex items-center gap-2">

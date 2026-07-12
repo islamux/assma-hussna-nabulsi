@@ -59,6 +59,10 @@ h1, h2, h3, h4 {
   font-family: var(--font-heading), "Amiri", serif;
 }
 
+.font-heading {
+  font-family: var(--font-heading), "Amiri", serif;
+}
+
 /* Quran verse styling (c1) */
 span.c1 {
   color: var(--verse);
@@ -106,7 +110,7 @@ span.c4 {
 }
 
 /* Smooth transitions */
-* {
+body, button, a, .card, input {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 

@@ -32,7 +32,7 @@ export default function BookmarksPage() {
       <Header />
       <main className="flex-1">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
-          <h1 className="text-2xl font-bold text-primary mb-8" style={{ fontFamily: "var(--font-heading)" }}>
+          <h1 className="text-2xl font-bold text-primary mb-8 font-heading">
             المفضلة
           </h1>
 
@@ -51,7 +51,7 @@ export default function BookmarksPage() {
                   className="flex items-center justify-between p-4 rounded-xl border border-border bg-card hover:bg-card-hover transition-all"
                 >
                   <Link href={`/asma/${name.slug}`} className="flex-1">
-                    <h3 className="text-lg font-bold text-primary" style={{ fontFamily: "var(--font-heading)" }}>
+                    <h3 className="text-lg font-bold text-primary font-heading">
                       {name.displayName}
                     </h3>
                     <p className="text-sm text-muted mt-1">{name.parts.length} أجزاء</p>

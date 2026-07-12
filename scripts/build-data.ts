@@ -53,28 +53,36 @@ function slugify(name: string): string {
   return slug;
 }
 
+function sanitizeHtml(html: string): string {
+  let result = html;
+  result = result.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+  result = result.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, "");
+  result = result.replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, "");
+  result = result.replace(/<embed\b[^>]*\/?>/gi, "");
+  result = result.replace(/\son\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, "");
+  result = result.replace(/javascript\s*:/gi, "");
+  result = result.replace(/data\s*:\s*text\/html/gi, "");
+  return result;
+}
+
 function main() {
   const files = fs.readdirSync(ITEMS_DIR).filter((f) => f.endsWith(".json")).sort();
   const rawItems: RawItem[] = files.map((f) => JSON.parse(fs.readFileSync(path.join(ITEMS_DIR, f), "utf8")));
 
   // Group by name
-  const grouped = new Map<string, { displayName: string; parts: RawItem[] }>();
+  const grouped = new Map<string, { displayName: string; parts: (RawItem & { partNumber: number })[] }>();
 
   for (const item of rawItems) {
     const { name, part } = parseName(item.meta.title);
     if (!grouped.has(name)) {
       grouped.set(name, { displayName: name, parts: [] });
     }
-    grouped.get(name)!.parts.push(item);
+    grouped.get(name)!.parts.push({ ...item, partNumber: part });
   }
 
   // Sort parts within each group
   for (const [, group] of grouped) {
-    group.parts.sort((a, b) => {
-      const pa = parseName(a.meta.title).part;
-      const pb = parseName(b.meta.title).part;
-      return pa - pb;
-    });
+    group.parts.sort((a, b) => a.partNumber - b.partNumber);
   }
 
   // Build output array
@@ -88,7 +96,7 @@ function main() {
         index: p.index,
         title: p.meta.title,
         content: p.content,
-        contentHtml: p.contentHtml,
+        contentHtml: sanitizeHtml(p.contentHtml),
       })),
     }))
     .sort((a, b) => a.index - b.index);

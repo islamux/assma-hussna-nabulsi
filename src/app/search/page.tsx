@@ -18,12 +18,17 @@ function SearchResults() {
   const query = searchParams.get("q") || "";
   const [results, setResults] = useState<{ name: string; slug: string; snippet: string }[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!query) return;
     setLoading(true);
+    setError(null);
     fetch("/data/search-index.json")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("فشل تحميل فهرس البحث");
+        return r.json();
+      })
       .then((data: SearchItem[]) => {
         const fuse = new Fuse(data, {
           keys: ["name", "content"],
@@ -37,19 +42,22 @@ function SearchResults() {
           snippet: r.item.content.substring(0, 200) + "...",
         }));
         setResults(res);
-        setLoading(false);
-      });
+      })
+      .catch((err) => setError(err instanceof Error ? err.message : "حدث خطأ غير متوقع"))
+      .finally(() => setLoading(false));
   }, [query]);
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
-      <h1 className="text-2xl font-bold text-primary mb-6" style={{ fontFamily: "var(--font-heading)" }}>
+      <h1 className="text-2xl font-bold text-primary mb-6 font-heading">
         نتائج البحث: {query}
       </h1>
 
       {loading && <p className="text-muted">جاري البحث...</p>}
 
-      {!loading && results.length === 0 && query && (
+      {error && <p className="text-red-500">{error}</p>}
+
+      {!loading && !error && results.length === 0 && query && (
         <p className="text-muted">لا توجد نتائج لـ &quot;{query}&quot;</p>
       )}
 
@@ -60,7 +68,7 @@ function SearchResults() {
             href={`/asma/${r.slug}`}
             className="block p-5 rounded-xl border border-border bg-card hover:bg-card-hover hover:border-primary/30 transition-all"
           >
-            <h3 className="text-lg font-bold text-primary" style={{ fontFamily: "var(--font-heading)" }}>
+            <h3 className="text-lg font-bold text-primary font-heading">
               اسم الله {r.name}
             </h3>
             <p className="mt-2 text-sm text-muted/80 line-clamp-2">{r.snippet}</p>

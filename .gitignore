@@ -42,6 +42,7 @@ next-env.d.ts
 
 # data files (raw source - not needed for build)
 /data/items/
+/_index.json
 
 # extraction scripts (not part of the app)
 /scripts/extract.js
