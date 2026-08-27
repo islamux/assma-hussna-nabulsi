@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { addBookmark, removeBookmark, isBookmarked } from "@/lib/bookmarks";
 
-export default function BookmarkButton({ slug, name }: { slug: string; name: string }) {
+export default function BookmarkButton({ slug }: { slug: string }) {
   const [bookmarked, setBookmarked] = useState(false);
 
   useEffect(() => {

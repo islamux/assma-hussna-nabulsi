@@ -38,7 +38,7 @@ export default async function NamePage({ params }: { params: Promise<{ slug: str
               {name.displayName}
             </h1>
             <div className="flex items-center gap-1">
-              <BookmarkButton slug={slug} name={name.displayName} />
+              <BookmarkButton slug={slug} />
               <ShareButton slug={slug} name={name.displayName} />
             </div>
           </div>

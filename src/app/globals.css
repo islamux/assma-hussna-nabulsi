@@ -12,6 +12,8 @@
   --color-name: var(--name);
   --color-reference: var(--reference);
   --color-border: var(--border-color);
+  --color-card: var(--card-bg);
+  --color-card-hover: var(--card-hover);
   --font-body: var(--font-naskh);
   --font-heading: var(--font-amiri);
 }

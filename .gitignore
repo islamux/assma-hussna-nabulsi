@@ -45,6 +45,7 @@ next-env.d.ts
 /data/search-index.json
 /data/hadiths.json
 /public/data/search-index.json
+/public/data/names-meta.json
 /_index.json
 
 # extraction scripts (not part of the app)
