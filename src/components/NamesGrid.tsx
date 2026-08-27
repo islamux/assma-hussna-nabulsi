@@ -1,5 +1,3 @@
-"use client";
-
 import NameCard from "./NameCard";
 import SearchBar from "./SearchBar";
 import type { NameEntry } from "@/lib/types";

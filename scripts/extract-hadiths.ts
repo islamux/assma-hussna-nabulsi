@@ -73,10 +73,6 @@ function isNearDuplicate(a: string, b: string): boolean {
   const nb = normalizeForDedup(b);
   if (na === nb) return true;
   if (na.includes(nb) || nb.includes(na)) return true;
-  const shorter = na.length <= nb.length ? na : nb;
-  const longer = na.length <= nb.length ? nb : na;
-  if (shorter.length < 30) return false;
-  if (longer.includes(shorter)) return true;
   return false;
 }
 
@@ -93,12 +89,6 @@ function deduplicate(hadiths: string[]): string[] {
     if (!isDup) result.push(h);
   }
   return result;
-}
-
-interface FileInfo {
-  file: string;
-  index: number;
-  hadiths: string[];
 }
 
 function extractAllWithSources(): { hadiths: string[]; sources: Map<string, string[]> } {
@@ -163,7 +153,7 @@ function extractAllWithSources(): { hadiths: string[]; sources: Map<string, stri
       for (const pattern of inlinePatterns) {
         const matches = [...content.matchAll(pattern)];
         for (const match of matches) {
-          let text = match[1].replace(/\s+/g, " ").trim();
+          const text = match[1].replace(/\s+/g, " ").trim();
           if (text.length > 10 && text.length < 1000) {
             if (text.startsWith("[")) continue;
             const inHtml = html.includes(
@@ -190,16 +180,6 @@ function analyzeDistribution(
   hadiths: string[],
   sources: Map<string, string[]>
 ): void {
-  const lectureCounts = new Map<string, { total: number; unique: number }>();
-
-  for (const file of fs.readdirSync(ITEMS_DIR).filter(f => f.endsWith(".json")).sort()) {
-    const item = JSON.parse(
-      fs.readFileSync(path.join(ITEMS_DIR, file), "utf8")
-    );
-    const title = item.title || file;
-    lectureCounts.set(file, { total: 0, unique: 0 });
-  }
-
   const lectureHadithCount = new Map<string, number>();
   for (const file of fs.readdirSync(ITEMS_DIR).filter(f => f.endsWith(".json")).sort()) {
     lectureHadithCount.set(file, 0);

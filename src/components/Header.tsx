@@ -1,9 +1,6 @@
-"use client";
-
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 import FontSizeControl from "./FontSizeControl";
-import SearchBar from "./SearchBar";
 
 export default function Header() {
   return (
