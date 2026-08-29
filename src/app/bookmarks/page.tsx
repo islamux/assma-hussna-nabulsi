@@ -4,15 +4,33 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import { getBookmarks, removeBookmark } from "@/lib/bookmarks";
-import { getAllNames } from "@/lib/data";
+
+interface NameMeta {
+  slug: string;
+  displayName: string;
+  partsCount: number;
+}
 
 export default function BookmarksPage() {
-  const [bookmarkedSlugs, setBookmarkedSlugs] = useState<string[]>([]);
+  const [bookmarks, setBookmarks] = useState<NameMeta[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setBookmarkedSlugs(getBookmarks());
+    const savedSlugs = getBookmarks();
     setMounted(true);
+    if (savedSlugs.length === 0) return;
+    setLoading(true);
+    fetch("/data/names-meta.json")
+      .then((r) => {
+        if (!r.ok) throw new Error("فشل تحميل المعلومات");
+        return r.json();
+      })
+      .then((all: NameMeta[]) => {
+        setBookmarks(all.filter((n) => savedSlugs.includes(n.slug)));
+      })
+      .catch(() => setBookmarks([]))
+      .finally(() => setLoading(false));
   }, []);
 
   if (!mounted) {
@@ -24,8 +42,10 @@ export default function BookmarksPage() {
     );
   }
 
-  const allNames = getAllNames();
-  const bookmarked = allNames.filter((n) => bookmarkedSlugs.includes(n.slug));
+  const remove = (slug: string) => {
+    removeBookmark(slug);
+    setBookmarks((items) => items.filter((n) => n.slug !== slug));
+  };
 
   return (
     <>
@@ -36,7 +56,9 @@ export default function BookmarksPage() {
             المفضلة
           </h1>
 
-          {bookmarked.length === 0 ? (
+          {loading ? (
+            <p className="text-center text-muted py-12">جاري التحميل...</p>
+          ) : bookmarks.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-muted text-lg">لا توجد عناصر مفضلة بعد</p>
               <Link href="/" className="inline-block mt-4 text-primary hover:text-primary-light transition-colors">
@@ -45,7 +67,7 @@ export default function BookmarksPage() {
             </div>
           ) : (
             <div className="space-y-3">
-              {bookmarked.map((name) => (
+              {bookmarks.map((name) => (
                 <div
                   key={name.slug}
                   className="flex items-center justify-between p-4 rounded-xl border border-border bg-card hover:bg-card-hover transition-all"
@@ -54,13 +76,10 @@ export default function BookmarksPage() {
                     <h3 className="text-lg font-bold text-primary font-heading">
                       {name.displayName}
                     </h3>
-                    <p className="text-sm text-muted mt-1">{name.parts.length} أجزاء</p>
+                    <p className="text-sm text-muted mt-1">{name.partsCount} أجزاء</p>
                   </Link>
                   <button
-                    onClick={() => {
-                      removeBookmark(name.slug);
-                      setBookmarkedSlugs((s) => s.filter((slug) => slug !== name.slug));
-                    }}
+                    onClick={() => remove(name.slug)}
                     className="p-2 text-muted hover:text-red-500 transition-colors"
                     title="إزالة من المفضلة"
                   >

@@ -29,7 +29,7 @@ export default function HomePage() {
         </section>
       </main>
       <footer className="py-8 border-t border-border text-center text-muted text-sm">
-        <p>الكلم الطيب - kalemtayeb.com</p>
+        <p>Islamux Dev</p>
       </footer>
     </>
   );

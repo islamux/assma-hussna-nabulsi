@@ -14,15 +14,22 @@ export function getBookmarks(): string[] {
 
 export function addBookmark(slug: string): void {
   const bookmarks = getBookmarks();
-  if (!bookmarks.includes(slug)) {
-    bookmarks.push(slug);
+  if (bookmarks.includes(slug)) return;
+  bookmarks.push(slug);
+  try {
     localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bookmarks));
+  } catch {
+    // storage can be disabled or full; bookmark silently not persisted
   }
 }
 
 export function removeBookmark(slug: string): void {
   const bookmarks = getBookmarks().filter((s) => s !== slug);
-  localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bookmarks));
+  try {
+    localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bookmarks));
+  } catch {
+    // storage can be disabled or full; removal silently not persisted
+  }
 }
 
 export function isBookmarked(slug: string): boolean {

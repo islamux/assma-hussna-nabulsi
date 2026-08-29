@@ -15,7 +15,7 @@ interface RawItem {
 
 // Parse "اسم الله X 1" → name: "الرحمن", part: 1
 function parseName(title: string): { name: string; part: number } {
-  const clean = title.replace(/[:؟؟،،]/g, "").trim();
+  const clean = title.replace(/[؟،:]/g, "").trim();
 
   // Handle "مقدمة" entries specially
   if (clean.startsWith("مقدمة")) {
@@ -70,12 +70,12 @@ function main() {
   const rawItems: RawItem[] = files.map((f) => JSON.parse(fs.readFileSync(path.join(ITEMS_DIR, f), "utf8")));
 
   // Group by name
-  const grouped = new Map<string, { displayName: string; parts: (RawItem & { partNumber: number })[] }>();
+  const grouped = new Map<string, { parts: (RawItem & { partNumber: number })[] }>();
 
   for (const item of rawItems) {
     const { name, part } = parseName(item.meta.title);
     if (!grouped.has(name)) {
-      grouped.set(name, { displayName: name, parts: [] });
+      grouped.set(name, { parts: [] });
     }
     grouped.get(name)!.parts.push({ ...item, partNumber: part });
   }
@@ -115,6 +115,10 @@ function main() {
   const publicSearchDir = path.join(__dirname, "..", "public", "data");
   if (!fs.existsSync(publicSearchDir)) fs.mkdirSync(publicSearchDir, { recursive: true });
   fs.writeFileSync(path.join(publicSearchDir, "search-index.json"), JSON.stringify(searchIndex, null, 2), "utf8");
+
+  // Slim name meta (no HTML) for client-only pages (e.g. bookmarks)
+  const nameMeta = names.map((n) => ({ slug: n.slug, displayName: n.displayName, partsCount: n.parts.length }));
+  fs.writeFileSync(path.join(publicSearchDir, "names-meta.json"), JSON.stringify(nameMeta, null, 2), "utf8");
 
   console.log(`Grouped ${rawItems.length} items → ${names.length} unique names`);
   console.log(`Saved: ${OUTPUT}`);

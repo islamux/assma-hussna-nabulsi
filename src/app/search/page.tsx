@@ -33,14 +33,16 @@ function SearchResults() {
         const fuse = new Fuse(data, {
           keys: ["name", "content"],
           threshold: 0.3,
-          includeMatches: true,
           minMatchCharLength: 2,
         });
-        const res = fuse.search(query).slice(0, 20).map((r) => ({
-          name: r.item.name,
-          slug: r.item.slug,
-          snippet: r.item.content.substring(0, 200) + "...",
-        }));
+        const res = fuse.search(query).slice(0, 20).map((r) => {
+          const content = r.item.content;
+          return {
+            name: r.item.name,
+            slug: r.item.slug,
+            snippet: content.substring(0, 200) + (content.length > 200 ? "..." : ""),
+          };
+        });
         setResults(res);
       })
       .catch((err) => setError(err instanceof Error ? err.message : "حدث خطأ غير متوقع"))
