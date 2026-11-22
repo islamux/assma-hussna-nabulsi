@@ -50,3 +50,8 @@ next-env.d.ts
 
 # extraction scripts (not part of the app)
 /scripts/extract.js
+.env
+.env.*
+*.key
+*.p12
+*.pfx
